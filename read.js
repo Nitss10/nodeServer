@@ -37,10 +37,11 @@ function rep(var_obj,codes)
 }
 
 
-function Parser(codes, name,var_obj){
+function Parser(codes, name,var_obj,filename){
     switch(name)
     {
     case 'javascript':
+        fs.createReadStream(filename).pipe(fs.createWriteStream('temp'+filename+'.js'));
         if(codes.includes('require') || codes.includes('import') || codes.includes('export') || codes.includes('process'))
             throw new Error(' contains invalid statements')
         else
@@ -56,6 +57,7 @@ function Parser(codes, name,var_obj){
         }
     
     case 'python':
+        fs.createReadStream(filename).pipe(fs.createWriteStream('temp'+filename+'.py'));
         if(codes.includes('import') || codes.includes('sys'))
             throw new Error(' contains invalid statements')
             else
@@ -71,6 +73,7 @@ function Parser(codes, name,var_obj){
             }
 
     case 'PHP':
+        fs.createReadStream(filename).pipe(fs.createWriteStream('temp'+filename+'.php'));
         if(codes.includes('include') || codes.includes('require') || codes.includes('require_once'))
             throw new Error(' contains invalid statements')
             else
@@ -94,6 +97,3 @@ Parser("$apple+$orange=4;console.log('another test');",'javascript',{
     $orange: 17,
     $pear: 54,
   })
-
-
-
