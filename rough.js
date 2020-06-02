@@ -14,7 +14,7 @@ fs.readFile('uploaded.txt', 'utf8', function(err, data){
         console.log(key);
         // console.log(fruits[keyy]);
         // var regex=new RegExp('\\$(\\'+key+'*)')
-        const replacer = new RegExp(keyy, 'g');
+        // const replacer = new RegExp(keyy, 'g');
         var result= data.replace(replacer,'nitss');
       }
       console.log(result);
