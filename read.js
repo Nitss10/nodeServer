@@ -1,27 +1,33 @@
-// var express=require('express')
-// var app=express()
+// const fs = require('fs');
+// const readline = require('readline');
+// const rl = readline.createInterface({
+//   input: fs.createReadStream('uploaded.TXT'),
+//   crlfDelay: Infinity
+// });
+// rl.on('line', (line) => {
+//   if(line.includes('require('))
+//    throw new Error ('contains require statements')
+//   else
+//    console.log(`Line from file: ${line}`);
+// });
 
-// app.listen(3000,function(){
-//     console.log('server running on port 3000')
-// })
-
-// app.get('/parser',Parser("\$apple=3;console.log('another test');",'javacodes',{
-//     apple: 28,
-//     orange: 17,
-//     pear: 54,
-//   }));
+// if (require.main === module) {
+//     console.log('called directly');
+// } else {
+//     console.log('required as a module');
+// }
 
 //codes="c=$apple+$orange;console.log('another test');"
-const args = require('yargs').argv;
-
+// const args = require('yargs').argv;
+const fs = require('fs') 
 function rep(var_obj,codes)
 {
     const keys = Object.keys(var_obj);
     for (const key of keys) {
         // var regex=/\$(\w*)/;
-        var regex=new RegExp('\\$(\\'+key+'*)')
-        var codes = codes.replace(regex, "args."+key);
-        codes='c'+args.apple+'+'+args.orange+';console.log("another test");'
+        // var regex=new RegExp('\\$(\\'+key+'*)')
+        var codes = codes.replace(key, int(var_obj[key]));
+        // codes='c'+args.apple+'+'+args.orange+';console.log("another test");'
 
       }
     
@@ -30,8 +36,6 @@ function rep(var_obj,codes)
     
 }
 
-
-const fs = require('fs') 
 
 function Parser(codes, name,var_obj){
     switch(name)
@@ -86,28 +90,10 @@ function Parser(codes, name,var_obj){
         }
 
 Parser("$apple+$orange=4;console.log('another test');",'javascript',{
-    apple: 28,
-    orange: 17,
-    pear: 54,
+    $apple: 28,
+    $orange: 17,
+    $pear: 54,
   })
 
 
 
-// const fs = require('fs');
-// const readline = require('readline');
-// const rl = readline.createInterface({
-//   input: fs.createReadStream('hello1.js'),
-//   crlfDelay: Infinity
-// });
-// rl.on('line', (line) => {
-//   if(line.includes('require('))
-//    throw new Error ('contains require statements')
-//   else
-//    console.log(`Line from file: ${line}`);
-// });
-
-// if (require.main === module) {
-//     console.log('called directly');
-// } else {
-//     console.log('required as a module');
-// }
