@@ -1,2 +1,2 @@
-print($apple)
+print($apple
 print($orange+$pear)
