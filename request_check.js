@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const exec = require("child_process").exec; 
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -12,7 +13,14 @@ app.post('/parser', (req, res) => {
 
     console.log('Got body:', req.body);
     Parser(name,var_obj,filename);
-    res.sendStatus(200);
+    // res.sendStatus(200);
+    cmd = name + ' ' + 'temp'+filename   //command to run script
+
+    exec(cmd, (error, stdout, stderr) => {
+        if (stderr) res.send({status:'fail', error:stderr})
+        res.send({status:'success', output:stdout})
+    })
+   
 });
 
 var fs = require('fs'); 
@@ -20,7 +28,7 @@ var fs = require('fs');
 function Parser(name,var_obj,filename){
     switch(name)
     {
-    case 'javascript':
+    case 'node':
         fs.readFile(filename,'utf8', (err, codes) => { 
             // console.log(codes);
         if(codes.includes('require') || codes.includes('import') || codes.includes('export') || codes.includes('process'))
@@ -39,6 +47,7 @@ function Parser(name,var_obj,filename){
                 if (err) throw err;
                 console.log('file saved!');
             });
+            
          }})
           
         break;
@@ -63,11 +72,12 @@ function Parser(name,var_obj,filename){
                     if (err) throw err;
                     console.log('file saved!');
                 });
+
              }})
               
             break;
 
-    case 'PHP':
+    case 'php':
         fs.readFile(filename,'utf8', (err, codes) => { 
                 // console.log(codes);
         if(codes.includes('include') || codes.includes('require') || codes.includes('require_once'))

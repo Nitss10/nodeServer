@@ -1,1 +1,1 @@
-console.log($apple+$orange);
+console.log($apple+$orange+$pear);
