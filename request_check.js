@@ -23,6 +23,13 @@ app.post('/parser', (req, res) => {
    
 });
 
+app.post('/list',(req,res)=>{
+    exec("ls", (error, stdout, stderr) => {
+        if (stderr) res.send({status:'fail', error:stderr})
+        res.send({status:'success', output:stdout})
+    })
+})
+
 var fs = require('fs'); 
 
 function Parser(name,var_obj,filename){
