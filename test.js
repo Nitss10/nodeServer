@@ -1,6 +1,8 @@
 
 var express = require('express'); 
 var app = express(); 
+var spawn = require("child_process").spawn;
+
 app.listen(3000, function() { 
     console.log('server running on port 3000'); 
 } ) 
@@ -8,7 +10,7 @@ app.listen(3000, function() {
 app.get('/name', callName); 
 
 function callName(req, res) { 
-    var spawn = require("child_process").spawn; 
+     
     // E.g :     
     // so, first name = Mike and last name = Will 
     var process = spawn('node',["./anotherTest.js", 
@@ -22,7 +24,19 @@ function callName(req, res) {
     })
 } 
 
+app.get('/list', list_of_testfiles);
 
+function list_of_testfiles(req, res){
+    var process = spawn("ls"); 
+    process.stdout.on('data', function(data) { 
+        res.send(data.toString()); 
+    } ) 
+    process.stderr.on('data',stderr =>{
+        res.send(stderr.toString())
+        console.log(stderr.toString());
+    })
+
+}
 
 // const exec=require('child_process').exec;
 // const child = exec('node anotherTest.js',
