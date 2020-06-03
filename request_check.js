@@ -23,12 +23,13 @@ app.post('/parser', (req, res) => {
    
 });
 
-app.post('/list',(req,res)=>{
-    exec("ls", (error, stdout, stderr) => {
-        if (stderr) res.send({status:'fail', error:stderr})
-        res.send({status:'success', output:stdout})
-    })
-})
+
+// app.get('/list',(req,res)=>{
+//     exec("echo ls", (error, stdout, stderr) => {
+//         if (stderr) res.send({status:'fail', error:stderr})
+//         res.send({status:'success', output:stdout})
+//     })
+// })
 
 var fs = require('fs'); 
 
@@ -113,4 +114,4 @@ function Parser(name,var_obj,filename){
 
 // app.use(bodyParser.raw());
 
-app.listen(8080, () => console.log(`Started server at http://localhost:8080!`));
+app.listen(8080, () => console.log(`Started server at http://localhost:8080`));
