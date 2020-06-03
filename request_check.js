@@ -92,7 +92,7 @@ function Parser(name,var_obj,filename){
             throw new Error(' contains invalid statements')
         else
             {   
-                console.log('python');
+                console.log('php');
                 var keys = Object.keys(var_obj);
                 var result;
                 for (var key of keys) {
