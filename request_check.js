@@ -14,6 +14,7 @@ res.send('hello world');
 })
 
 app.post('/parser', (req, res) => {
+    try{
     var name=req.body.name;
     var var_obj=req.body.var_obj;
     var codes=req.body.text;
@@ -44,11 +45,18 @@ app.post('/parser', (req, res) => {
         //       console.log("Successfully deleted the file.")
         //     }
         // })
-        if (stderr) res.send({status:'fail', error:stderr})
+        if (stderr) return res.send({status:'fail', error:stderr})
         res.send({status:'success', output:JSON.parse(stdout)})
     })
     // JSON.parse(stdout)    
-});
+}
+catch(e)
+{
+    console.log('error',e);
+
+}
+}
+);
 
 
 // app.get('/list',(req,res)=>{
@@ -124,17 +132,17 @@ function Parser(name,codes,var_obj,filename){
                 codes=codes.trim();
                 console.log(codes);
                 
-                var imports2='import json'+'\r\n'+'import datetime'+'\r\n'+'import math'+'\r\n'+'import re'+'\r\n'+'import collections'+'\r\n'
+                var imports2='import json'+'\n'+'import datetime'+'\n'+'import math'+'\n'+'import re'+'\n'+'import collections'+'\n'
                 codes=imports2+codes;
 
                 var lastline;
-                if(codes.lastIndexOf("\r\n")>0) {
-                    lastline=codes.substring(codes.lastIndexOf("\r\n")+2);
+                if(codes.lastIndexOf("\n")>0) {
+                    lastline=codes.substring(codes.lastIndexOf("\n")+1);
                     console.log(lastline);
                     if(!(lastline.startsWith("print(")))
                   {
-                    codes=codes.substring(0, codes.lastIndexOf("\r\n"));
-                    codes=codes+"\r\nprint("+lastline+")";
+                    codes=codes.substring(0, codes.lastIndexOf("\n"));
+                    codes=codes+"\nprint("+lastline+")";
                   }
     
                 } 
@@ -168,13 +176,13 @@ function Parser(name,codes,var_obj,filename){
                 codes=codes.trim();
                 console.log(codes);
                 var lastline;
-                if(codes.lastIndexOf("\r\n")>0) {
-                    lastline=codes.substring(codes.lastIndexOf("\r\n")+2);
+                if(codes.lastIndexOf("\n")>0) {
+                    lastline=codes.substring(codes.lastIndexOf("\n")+1);
                     console.log(lastline);
                     if(!(lastline.startsWith("echo ")))
                     {
-                      codes=codes.substring(0, codes.lastIndexOf("\r\n"));
-                      codes=codes+"\r\necho "+lastline;
+                      codes=codes.substring(0, codes.lastIndexOf("\n"));
+                      codes=codes+"\necho "+lastline;
                     }
             
                 } 
