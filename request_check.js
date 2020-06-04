@@ -10,9 +10,11 @@ app.post('/parser', (req, res) => {
     var name=req.body.name;
     var var_obj=req.body.var_obj;
     var filename=req.body.filename;
+    var codes=req.body.text;
+    
 
     console.log('Got body:', req.body);
-    Parser(name,var_obj,filename);
+    Parser(codes,name,var_obj,filename);
     // res.sendStatus(200);
     cmd = name + ' ' + 'temp'+filename   //command to run script
 
@@ -24,23 +26,17 @@ app.post('/parser', (req, res) => {
 });
 
 
-// app.get('/list',(req,res)=>{
-//     exec("echo ls", (error, stdout, stderr) => {
-//         if (stderr) res.send({status:'fail', error:stderr})
-//         res.send({status:'success', output:stdout})
-//     })
-// })
 
 var fs = require('fs'); 
 
-function Parser(name,var_obj,filename){
+function Parser(codes,name,var_obj,filename){
     switch(name)
     {
     case 'node':
-        fs.readFile(filename,'utf8', (err, codes) => { 
+        
             // console.log(codes);
         if(codes.includes('require') || codes.includes('import') || codes.includes('export') || codes.includes('process'))
-            throw new Error(' contains invalid statements')
+                  throw new Error(' contains invalid statements')
         else
         {   
             console.log('javascript');
@@ -51,20 +47,20 @@ function Parser(name,var_obj,filename){
             
                 codes = codes.replace(regex, var_obj[key]);
             }
-            fs.writeFile('temp'+filename, codes, (err) => {
+            var imports1=` require('underscore');const { sqrt } = require('mathjs')`;
+            fs.writeFile('temp'+filename,imports1+ codes, (err) => {
                 if (err) throw err;
                 console.log('file saved!');
             });
-            
-         }})
+         }
           
         break;
         
     
     case 'python':
-        fs.readFile(filename,'utf8', (err, codes) => { 
+    
             // console.log(codes);
-        if(codes.includes('import') || codes.includes('sys'))
+          if(codes.includes('import') || codes.includes('sys')||codes.includes('open')||codes.includes('.read')||codes.includes('.write')||codes.includes('.close')||codes.includes('compile()'||codes.includes('input()'))|| codes.includes('detach()')|| codes.includes('fileno()')|| codes.includes('flush()')|| codes.includes('isatty()')|| codes.includes('readable()')|| codes.includes('readline()')|| codes.includes('readlines()')|| codes.includes('seek')|| codes.includes('seekable')|| codes.includes('tell()')|| codes.includes('truncate()')|| codes.includes('writeable()')|| codes.includes('write')|| codes.includes('writelines()'))
             throw new Error(' contains invalid statements')
         else
             {   
@@ -76,17 +72,18 @@ function Parser(name,var_obj,filename){
                 
                     codes = codes.replace(regex, var_obj[key]);
                 }
-                fs.writeFile('temp'+filename, codes, (err) => {
+                var imports2=`import numpy`+'\n'+'import json'+'\n'+'import datetime'+'\n'+'import math'+'\n'+'import re'
+                fs.writeFile('temp'+filename,imports2+ codes, (err) => {
                     if (err) throw err;
                     console.log('file saved!');
                 });
 
-             }})
+             }
               
             break;
 
     case 'php':
-        fs.readFile(filename,'utf8', (err, codes) => { 
+       
                 // console.log(codes);
         if(codes.includes('include') || codes.includes('require') || codes.includes('require_once'))
             throw new Error(' contains invalid statements')
@@ -104,13 +101,21 @@ function Parser(name,var_obj,filename){
                     if (err) throw err;
                     console.log('file saved!');
                 });
-             }})
+             }
               
             break;
     }
 
         }
 
+function deleteFile(filename){
+fs.unlink(filename, function(err) {
+  if (err) {
+    throw err
+  } else {
+    console.log("Successfully deleted the file.")
+  }
+}
 
 // app.use(bodyParser.raw());
 
