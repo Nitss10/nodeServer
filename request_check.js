@@ -9,8 +9,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // app.use(bodyParser.raw());
 
-app.post('/',(req,res)=>{
-res.send('hey world');
+app.get('/',(req,res)=>{
+res.send('hello world');
 })
 
 app.post('/parser', (req, res) => {
@@ -72,7 +72,6 @@ function Parser(name,codes,var_obj,filename){
         {   
             console.log('javascript');
             var keys = Object.keys(var_obj);
-            var result;
             for (var key of keys) {
                 var regex=new RegExp('(\\'+key+'*)','g');
             
@@ -81,17 +80,17 @@ function Parser(name,codes,var_obj,filename){
             codes=codes.trim();
             console.log(codes);
 
-            var imports1= `require('underscore');\r\nconst { sqrt } = require('mathjs')\r\n`;
+            var imports1= `require('underscore');\nconst { sqrt } = require('mathjs')\n`;
             codes=imports1+codes;
 
             var lastline;
-            if(codes.lastIndexOf("\r\n")>0) {
-                lastline=codes.substring(codes.lastIndexOf("\r\n")+2);
+            if(codes.lastIndexOf("\n")>0) {
+                lastline=codes.substring(codes.lastIndexOf("\n")+1);
                 console.log('lastline',lastline);
                 if(!(lastline.includes("console.log(")))
                 {
-                    codes=codes.substring(0, codes.lastIndexOf("\r\n"));
-                    codes=codes+"\r\nconsole.log("+lastline+")";
+                    codes=codes.substring(0, codes.lastIndexOf("\n"));
+                    codes=codes+"\nconsole.log("+lastline+")";
                     
                 }
             } 

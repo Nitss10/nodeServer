@@ -43,3 +43,13 @@ function subtract(apple,orange)
 
 add(apple,orange)
 subtract(apple,orange)
+
+{
+    "name":"python",
+    "var_obj":{
+        "$apple": "5",
+        "$orange":"2",
+        "$pear": "4"
+      },
+      "text":"\r\na=5\r\n$orange\r\n"
+    }
