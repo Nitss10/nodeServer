@@ -9,6 +9,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // app.use(bodyParser.raw());
 
+app.post('/',(req,res)=>{
+res.send('hey world');
+})
 
 app.post('/parser', (req, res) => {
     var name=req.body.name;
@@ -122,7 +125,7 @@ function Parser(name,codes,var_obj,filename){
                 codes=codes.trim();
                 console.log(codes);
                 
-                var imports2='import json'+'\r\n'+'import datetime'+'\r\n'+'import math'+'\r\n'+'import re'+'\r\n'
+                var imports2='import json'+'\r\n'+'import datetime'+'\r\n'+'import math'+'\r\n'+'import re'+'\r\n'+'import collections'+'\r\n'
                 codes=imports2+codes;
 
                 var lastline;
