@@ -108,6 +108,14 @@ function Parser(codes,name,var_obj,filename){
 
         }
 
+function deleteFile(filename){
+fs.unlink(filename, function(err) {
+  if (err) {
+    throw err
+  } else {
+    console.log("Successfully deleted the file.")
+  }
+}
 
 // app.use(bodyParser.raw());
 
