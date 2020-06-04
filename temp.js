@@ -1,3 +1,4 @@
 require('underscore');
 const { sqrt } = require('mathjs')
-console.log(5)
+var a=5
+console.log(9)
