@@ -122,7 +122,7 @@ function Parser(name,codes,var_obj,filename){
                 codes=codes.trim();
                 console.log(codes);
                 
-                var imports2='import numpy'+'\r\n'+'import json'+'\r\n'+'import datetime'+'\r\n'+'import math'+'\r\n'+'import re'+'\r\n'
+                var imports2='import json'+'\r\n'+'import datetime'+'\r\n'+'import math'+'\r\n'+'import re'+'\r\n'
                 codes=imports2+codes;
 
                 var lastline;
@@ -138,7 +138,7 @@ function Parser(name,codes,var_obj,filename){
                 } 
                 console.log(codes);
               
-                fs.writeFile('temp'+filename, imports2+codes, (err) => {
+                fs.writeFile(filename, imports2+codes, (err) => {
                     if (err) throw err;
                     console.log('file saved!');
                 });
@@ -177,7 +177,7 @@ function Parser(name,codes,var_obj,filename){
             
                 } 
                 console.log(codes);
-                fs.writeFile('temp'+filename, codes, (err) => {
+                fs.writeFile(filename, codes, (err) => {
                     if (err) throw err;
                     console.log('file saved!');
                 });

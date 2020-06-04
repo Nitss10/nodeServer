@@ -24,15 +24,15 @@ function callName(req, res) {
 
 
 
-// const exec=require('child_process').exec;
-// const child = exec('node anotherTest.js',
-//     (error, stdout, stderr) => {
-//         console.log(`stdout: ${stdout}`);
-//         console.log(`stderr: ${stderr}`);
-//         if (error !== null) {
-//             console.log(`exec error: ${error}`);
-//         }
-// });
+const exec=require('child_process').exec;
+const child = exec('node anotherTest.js',
+    (error, stdout, stderr) => {
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+        if (error !== null) {
+            console.log(`exec error: ${error}`);
+        }
+});
 
 
 
